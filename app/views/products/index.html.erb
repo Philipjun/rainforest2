@@ -1,4 +1,12 @@
-<h1>Products#index</h1>
+<h1>Products Page</h1>
 
 <% @products.each do |product| %>
+  <ul>
+  <%= product.name %>
+  <%= product.formatted_price %>
+  </uL> 
+
 <% end %>
+
+<%= link_to "Add new product", new_product_path %>
+
