@@ -11,14 +11,3 @@ class Product < ActiveRecord::Base
     sprintf("%.2f", price_in_dollars)
   end
 end
-
-class Review <ActiveRecord::Base
-  belongs_to :user
-  belongs_to :product
-end
-
-
-class User < ActiveRecord::Base
-  has_many :reviews
-  has_many :products, :through => :reviews
-end
