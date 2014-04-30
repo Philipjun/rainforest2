@@ -1,7 +1,21 @@
 class ProductsController < ApplicationController
-  def index
-    @products = Product.all
+  before_filter :ensure_logged_in, only: [:show]
+
+def index
+    @products = if params[:search]
+      Product.where("name ILIKE ?", "%#{params[:search]}%")
+    else
+      Product.all
+    end
+
+    @products = @products.order(created_at: :desc).page(params[:page])
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
+
 
   def show
     @product = Product.find(params[:id])
