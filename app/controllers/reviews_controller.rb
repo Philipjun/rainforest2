@@ -10,12 +10,18 @@ class ReviewsController < ApplicationController
     @review = @product.reviews.build(review_params)
     @review.user_id = current_user.id
 
+    respond_to do |format|
+
 if @review.save
-      redirect_to products_path, notice: 'Review created successfully'
+      format.html {redirect_to products_path, notice: 'Review created successfully' }
+      format.js {}
+      
     else
-      render :action => :show
+      format.html { render "products/show", alert: 'There was an error.'  }
+      format.js{}
     end
   end
+end
 
   def destroy
     @review = Review.find(params[:id])
@@ -23,11 +29,13 @@ if @review.save
   end
 
   private
-  def review_params
-    params.require(:review).permit(:comment, :product_id)
-  end
 
   def load_product
      @product = Product.find(params[:product_id])
   end
+
+    def review_params
+    params.require(:review).permit(:comment, :product_id)
+  end
+  
 end
